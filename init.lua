@@ -48,6 +48,10 @@ local config = {
             spell = false, -- sets vim.opt.spell
             signcolumn = "auto", -- sets vim.opt.signcolumn to auto
             wrap = false, -- sets vim.opt.wrap
+            shiftwidth = 4, -- Set shift width to 4 spaces.
+            tabstop = 4, -- Set tab stop to 4 spaces.
+            expandtab = true, -- Use spaces instead of tabs
+            smarttab = true, -- Use smarttab. This option makes <TAB> and <BS> operate using shiftwidth.
         },
         g = {
             mapleader = " ", -- sets vim.g.mapleader
