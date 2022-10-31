@@ -52,6 +52,7 @@ local config = {
             tabstop = 4, -- Set tab stop to 4 spaces.
             expandtab = true, -- Use spaces instead of tabs
             smarttab = true, -- Use smarttab. This option makes <TAB> and <BS> operate using shiftwidth.
+            mouse = "", -- Disable mouse support
         },
         g = {
             mapleader = " ", -- sets vim.g.mapleader
