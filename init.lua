@@ -50,8 +50,6 @@ local config = {
             wrap = false, -- sets vim.opt.wrap
             shiftwidth = 4, -- Set shift width to 4 spaces.
             tabstop = 4, -- Set tab stop to 4 spaces.
-            expandtab = true, -- Use spaces instead of tabs
-            smarttab = true, -- Use smarttab. This option makes <TAB> and <BS> operate using shiftwidth.
             mouse = "", -- Disable mouse support
         },
         g = {
@@ -236,6 +234,7 @@ local config = {
             --   end,
             -- },
             { "Mofiqul/vscode.nvim" },
+            { "tpope/vim-surround" },
 
             -- We also support a key value style plugin definition similar to NvChad:
             -- ["ray-x/lsp_signature.nvim"] = {
@@ -330,6 +329,18 @@ local config = {
         --     ["~/%.config/foo/.*"] = "fooscript",
         --   },
         -- }
+
+        -- Set up autocommands/groups
+        vim.api.nvim_create_augroup("filetype_vim", {})
+        -- vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
+        --     group = "filetype_vim",
+        --     command = "FileType vim setlocal foldmethod=marker"
+        -- })
+
+        -- Set up vscode theme
+        require('vscode').setup({
+            transparent = true,
+        })
     end,
 }
 
