@@ -51,6 +51,9 @@ local config = {
             shiftwidth = 4, -- Set shift width to 4 spaces.
             tabstop = 4, -- Set tab stop to 4 spaces.
             mouse = "", -- Disable mouse support
+            ignorecase = true, -- Ignore capital letters during search
+            smartcase = true, -- Override ignorecase if explicitly typing capital letters in query
+            foldmethod = "indent", -- Sets default foldmethod to fold based on indent level
         },
         g = {
             mapleader = " ", -- sets vim.g.mapleader
@@ -95,7 +98,7 @@ local config = {
             bg = "#1e222a",
         },
         highlights = function(hl) -- or a function that returns a new table of colors to set
-            local C = require "default_theme.colors"
+        local C = require "default_theme.colors"
 
             hl.Normal = { fg = C.fg, bg = C.bg }
 
@@ -210,6 +213,11 @@ local config = {
             ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
             -- quick save
             -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+            -- Easy Align mappings
+            ["ga"] = {"<Plug>(EasyAlign)", desc = "Start interactive EasyAlign for a motion/text object (eg. gaip)"},
+        },
+        v = {
+            ["ga"] = {"<Plug>(EasyAlign)", desc = "Start interactive EasyAlign in visual mode (e.g. vipga)"},
         },
         t = {
             -- setting a mapping to false will disable it
@@ -235,6 +243,7 @@ local config = {
             -- },
             { "Mofiqul/vscode.nvim" },
             { "tpope/vim-surround" },
+            { "junegunn/vim-easy-align"},
 
             -- We also support a key value style plugin definition similar to NvChad:
             -- ["ray-x/lsp_signature.nvim"] = {
@@ -269,6 +278,9 @@ local config = {
         -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
         ["mason-null-ls"] = { -- overrides `require("mason-null-ls").setup(...)`
             -- ensure_installed = { "prettier", "stylua" },
+        },
+        ["indent-o-matic"] = {
+            skip_multiline = true,
         },
     },
 
@@ -331,15 +343,27 @@ local config = {
         -- }
 
         -- Set up autocommands/groups
-        vim.api.nvim_create_augroup("filetype_vim", {})
-        -- vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
-        --     group = "filetype_vim",
-        --     command = "FileType vim setlocal foldmethod=marker"
-        -- })
+        vim.api.nvim_create_augroup("numbertoggle", {})
+            vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
+                group = "numbertoggle",
+                pattern = "*",
+                callback = function() if(vim.opt.number and vim.mode ~= "i") then vim.opt.relativenumber = true end end,
+            })
+            vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
+                group = "numbertoggle",
+                pattern = "*",
+                callback = function() if(vim.opt.number) then vim.opt.relativenumber = false end end,
+            })
+
+        vim.api.nvim_create_augroup("openfolds", {})
+            vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+                pattern = "*",
+                command = "silent! :%foldopen!",
+            })
 
         -- Set up vscode theme
         require('vscode').setup({
-            transparent = true,
+            -- transparent = true,
         })
     end,
 }
