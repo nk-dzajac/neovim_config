@@ -244,6 +244,7 @@ local config = {
             { "Mofiqul/vscode.nvim" },
             { "tpope/vim-surround" },
             { "junegunn/vim-easy-align"},
+            { "kenn7/vim-arsync" },
 
             -- We also support a key value style plugin definition similar to NvChad:
             -- ["ray-x/lsp_signature.nvim"] = {
